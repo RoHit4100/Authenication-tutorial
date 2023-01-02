@@ -18,6 +18,7 @@
   "homepage": "https://github.com/RoHit4100/Authenication-tutorial#readme",
   "dependencies": {
     "body-parser": "^1.20.1",
+    "ejs": "^3.1.8",
     "express": "^4.18.2",
     "mongoose": "^6.8.2"
   }
