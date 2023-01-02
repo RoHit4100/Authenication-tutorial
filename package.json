@@ -1,0 +1,24 @@
+{
+  "name": "authentiation",
+  "version": "1.0.0",
+  "description": "This is the tutorial for authentication",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoHit4100/Authenication-tutorial.git"
+  },
+  "author": "rohit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RoHit4100/Authenication-tutorial/issues"
+  },
+  "homepage": "https://github.com/RoHit4100/Authenication-tutorial#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
+    "mongoose": "^6.8.2"
+  }
+}
