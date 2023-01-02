@@ -1,6 +1,10 @@
+// Requiring dotenv package to prevent encryption key 
+require("dotenv").config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const encrypt = require('mongoose-encryption');
 const port = process.env.PORT || 3000;
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,6 +20,8 @@ const userSchema = new mongoose.Schema({
     userName: String,
     password: String
 });
+// Using mongoose-encryption for the encryption of the password
+userSchema.plugin(encrypt, { secret: process.env.SECRET, encryptedFields: ["password"] });
 
 const User = new mongoose.model("User", userSchema);
 app.get("/", function (req, res) {
