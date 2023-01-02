@@ -3,13 +3,25 @@
 const encrypt = require('mongoose-encryption');
 Using mongoose-encryption for the encryption of the password
 userSchema.plugin(encrypt, { secret: process.env.SECRET, encryptedFields: ["password"] });
-/*
 
 -------------------Level 3 auth using hashing-------------------
 const md5 = require('md5');
 md5(req.body.password) => convert in the hash with the help of the md5
 md5(req.body.password) => converting the user enter password in hash and compare with the save hash value in the DB
+
+-------------------Level 4 auth using hashing + salting-------------------
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+bcrypt.hash(passwordEnterByUser, saltRounds, function(err, hash){
+    We will assign the given hash in the DB for the resp user
+})
+bcrypt.compare(passwordEnterByUser, savePassInDB, function(err, result){
+    if(result === true){
+        pass enter by the user is correct
+    }
+})
 */
+
 
 // Requiring dotenv package to prevent encryption key 
 require("dotenv").config();
@@ -17,7 +29,8 @@ require("dotenv").config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const md5 = require('md5');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -45,17 +58,19 @@ app.route("/register")
         res.render("register.ejs")
     })
     .post(function (req, res) {
-        const user = new User({
-            userName: req.body.userName,
-            password: md5(req.body.password)
-        });
-        user.save(function (err) {
-            if (err) {
-                console.log(err);
-            } else {
-                res.render("secrets.ejs")
-            }
-        });
+        bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+            const user = new User({
+                userName: req.body.userName,
+                password: hash
+            });
+            user.save(function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.render("secrets.ejs")
+                }
+            });
+        })
     })
 app.route("/login")
     .get(function (req, res) {
@@ -63,17 +78,23 @@ app.route("/login")
     })
     .post(function (req, res) {
         const userName = (req.body.userName).trim();
-        const password = md5(req.body.password).trim();
+        const password = (req.body.password).trim();
         User.findOne({ userName: userName }, function (err, foundUser) {
             if (err) {
                 console.log(err);
             } else {
                 if (foundUser) {
-                    if (foundUser.password === password) {
-                        res.render("secrets.ejs");
-                    } else {
-                        alert("Please enter the valid details")
-                    }
+                    bcrypt.compare(password, foundUser.password, function (err, result) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            if (result === true) {
+                                res.render("secrets.ejs");
+                            } else {
+                                alert("Please enter the valid details");
+                            }
+                        }
+                    })
                 }
             }
         })

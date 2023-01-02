@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/RoHit4100/Authenication-tutorial#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.8",
