@@ -1,9 +1,9 @@
 
 # Authentication Levels
 
-This is the repository to help in Authentication for any website or any application, Anyone can gothrough this code and learn how to implement the authentication from various levels.
+This is the repository to help in Authentication for any website or any application, Anyone can go through this repository and learn how to implement the authentication from with the help of various packages which are provided ny node.
 
-This project is for the forks who are looking to learn authentication for there personal projects and wants to implement very secure webApp or website.
+This project is for the folks who are looking to learn authentication for there personal projects and wants to implement very secure web application or website.
 
 
 
